@@ -27,3 +27,42 @@ function genererProjets(projets) {
 
 genererProjets(projets)
 console.log(projets)
+
+
+// Partie filtre
+const listeBtn = document.querySelectorAll(".filtre button")
+    
+for (let i = 0; i < listeBtn.length; i++) {
+    listeBtn[i].addEventListener("click", () => {
+        
+        if (i === 0) {
+            document.querySelector(".gallery").innerHTML = ""
+            genererProjets(projets)
+            
+        }else if (i === 1) {
+            const listeObjets = projets.filter (function (Objet) {
+                return Objet.category.name === "Objets"
+            }) 
+            document.querySelector(".gallery").innerHTML = ""            
+            genererProjets(listeObjets)
+
+        }else if (i === 2) {
+            const listeAppartement = projets.filter (function (appartement){
+                return appartement.category.name === "Appartements"
+            })
+            document.querySelector(".gallery").innerHTML = ""            
+            genererProjets(listeAppartement)
+
+        }else if (i === 3) {
+            const listeHotel = projets.filter (function (hotel) {
+                return hotel.category.name === "Hotels & restaurants"
+            })
+            document.querySelector(".gallery").innerHTML = ""            
+            genererProjets(listeHotel)
+        }
+    })
+    
+}
+
+
+
