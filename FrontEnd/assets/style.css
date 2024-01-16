@@ -125,6 +125,33 @@ li:hover {
 	text-align: center;
 	margin-bottom: 1em;
 }
+
+/*Mise en forme des boutton*/
+.filtre {
+	display: flex;
+	justify-content: center;	
+	gap: 10px;
+}
+
+.filtre button {
+	height: 37px;
+	font-size: 1.2em;
+	border: 1px solid #1D6154;	
+	font-family: 'Syne';
+	font-weight: 700;
+	color: #1D6154;
+	padding: 0 27px;
+	margin : 2em auto ;	
+	text-align: center;
+	border-radius: 60px ;	
+	background-color: white
+}
+
+.filtre button:hover {
+	background-color: #1D6154;
+	color: white;
+}
+
 .gallery {
 	width: 100%;
 	display: grid;
