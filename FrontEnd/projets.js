@@ -1,67 +1,140 @@
-// Récupération des projets
-const reponse = await fetch("http://localhost:5678/api/works/")
-const projets = await reponse.json()
+// Récupération des projets depuis l'API
 
-function genererProjets(projets) {
-    for (let i = 0; i < projets.length; i++) {
+async function getProjects() {
 
-        const projet = projets[i]
-        // Récupération de l'élément du DOM qui accueillera les projets
-        const sectionPortfolio = document.querySelector(".gallery")
-        // Création d’une balise dédiée à un projet
-        const projetElement = document.createElement("article")
-        // Création des balises 
-        const imageElement = document.createElement("img")
-        imageElement.src = projet.imageUrl
-        const titreElement = document.createElement("p")
-        titreElement.innerText = projet.title
-
-         // On rattache la balise article a la section gallery
-         sectionPortfolio.appendChild(projetElement)
-
-         // On rattache les balises img et p à la balise article
-         projetElement.appendChild(imageElement)
-         projetElement.appendChild(titreElement)
-    }
-}
-
-genererProjets(projets)
-console.log(projets)
-
-
-// Partie filtre
-const listeBtn = document.querySelectorAll(".filtre button")
+         try {
     
-for (let i = 0; i < listeBtn.length; i++) {
-    listeBtn[i].addEventListener("click", () => {
-        
-        if (i === 0) {
-            document.querySelector(".gallery").innerHTML = ""
-            genererProjets(projets)
-            
-        }else if (i === 1) {
-            const listeObjets = projets.filter (function (Objet) {
-                return Objet.category.name === "Objets"
-            }) 
-            document.querySelector(".gallery").innerHTML = ""            
-            genererProjets(listeObjets)
-
-        }else if (i === 2) {
-            const listeAppartement = projets.filter (function (appartement){
-                return appartement.category.name === "Appartements"
-            })
-            document.querySelector(".gallery").innerHTML = ""            
-            genererProjets(listeAppartement)
-
-        }else if (i === 3) {
-            const listeHotel = projets.filter (function (hotel) {
-                return hotel.category.name === "Hotels & restaurants"
-            })
-            document.querySelector(".gallery").innerHTML = ""            
-            genererProjets(listeHotel)
+             const response = await fetch("http://localhost:5678/api/works/");
+    
+            const projects = await response.json();
+    
+            return projects;
+    
+        } catch (error) {
+    
+            console.error("Erreur lors de la récupération des projets :", error);
+    
+            return [];
+    
         }
+    
+    }
+    
+    
+    
+    // Génération des éléments HTML pour les projets
+    
+function generateProjectElements(projects) {
+    
+    const gallery = document.querySelector(".gallery");
+    
+    gallery.textContent = ""; // Efface le contenu actuel de la galerie
+    
+        /*for (let i = 0; i < projects.length; i++) {
+
+            const project = projects[i]*/
+    
+    
+    for (const project of projects) {
+    
+        const projectElement = document.createElement("article");
+    
+        const imageElement = document.createElement("img");
+    
+        const titleElement = document.createElement("p");
+    
+    
+    
+        imageElement.src = project.imageUrl;
+    
+        titleElement.innerText = project.title;
+    
+    
+    
+        projectElement.appendChild(imageElement);
+    
+        projectElement.appendChild(titleElement);
+    
+        gallery.appendChild(projectElement);
+    
+    }
+    
+}
+    
+
+    
+// Filtrage des projets en fonction de la catégorie
+    
+function filterProjects(category) {
+    
+    const filteredProjects = projects.filter(project => project.category.name === category);
+    
+    generateProjectElements(filteredProjects);
+    
+}
+    
+    
+    
+// Initialisation
+    
+let projects = [];
+    
+    
+    
+async function initialize() {
+    
+    projects = await getProjects();
+    
+    generateProjectElements(projects);
+    
+    
+    
+    const filterButtons = document.querySelectorAll(".filtre button");
+    
+    
+    
+    filterButtons.forEach((button, index) => {
+    
+        button.addEventListener("click", () => {
+    
+            if (index === 0) {
+    
+                generateProjectElements(projects);
+    
+            } else {
+    
+                filterProjects(button.textContent);
+    
+            }
+    
+        });
+    
+    });
+
+    const utilisateurConnecter = window.localStorage.getItem("token")
+    if(utilisateurConnecter !== null) {
+        console.log("connecterz")
+        document.querySelector(".login").hidden = true
+        document.querySelector(".filtre").hidden = true
+        
+    } else {
+        console.log("pas connectée")
+        document.querySelector(".logout").hidden = true
+        document.querySelector(".mode-edition").hidden = true
+        document.querySelector(".modifier p").hidden = true
+    }
+
+
+    const deconnexion = document.querySelector(".logout")
+    deconnexion.addEventListener("click", () => {
+        window.localStorage.removeItem("token");
     })
     
+    
 }
+    
+
+    
+initialize();
 
 

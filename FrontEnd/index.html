@@ -8,18 +8,25 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
 	<meta name="description" content="">
+	<script src="https://kit.fontawesome.com/5d50513964.js" crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="./assets/style.css">
 	<script type="module" src="projets.js"></script>
 	
+	
 </head>
 <body>
+	<div class="mode-edition">
+		
+		<p><i class="fa-regular fa-pen-to-square"></i>Mode édition</p>
+	</div>
 <header>
 	<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
 	<nav>
-		<ul>
+		<ul class="list-header">
 			<li>projets</li>
 			<li>contact</li>
-			<li><a href="page-de-connexion.html" class="login">login</a></li>
+			<li><a href="login.html" class="login">login</a></li>
+			<li><a href="index.html" class="logout">logout</a></li>
 			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 		</ul>
 	</nav>
@@ -37,12 +44,15 @@
 		</article>
 	</section>
 	<section id="portfolio">
-		<h2>Mes Projets</h2>
+		<div class="modifier">
+			<h2>Mes Projets<span></span></h2>
+			<p><i class="fa-regular fa-pen-to-square"></i>Modifier</p>
+		</div>
 		<ul class="filtre">
-			<li><button class="btn-tous">Tous</button></li>
-			<li><button class="btn-objets">Objets</button></li>
-			<li><button class="appartements">Appartements</button></li>
-			<li><button class="btn-hotel">Hôtel & Restaurants</button></li>
+			<li><button>Tous</button></li>
+			<li><button>Objets</button></li>			
+			<li><button>Appartements</button></li>			
+			<li><button>Hotels & restaurants</button></li>
 		</ul>
 		<div class="gallery">
 			
