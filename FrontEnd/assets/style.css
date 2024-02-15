@@ -23,62 +23,75 @@ time, mark, audio, video {
 	font: inherit;
 	vertical-align: baseline;
 }
+
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
 	display: block;
 }
+
 body {
 	line-height: 1;
 }
+
 ol, ul {
 	list-style: none;
 }
+
 a {
 	text-decoration: none;
 	color: inherit;
 }
+
 blockquote, q {
 	quotes: none;
 }
+
 blockquote:before, blockquote:after,
 q:before, q:after {
 	content: '';
 	content: none;
 }
+
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
+
+h2{
+	font-family: 'Syne';
+	font-weight: 700;
+	font-size: 30px;
+	color: #1D6154
+}
+
 /** end reset css**/
-body {
-	
+
+body {	
 	margin:auto;
 	font-family: 'Work Sans' ;
 	font-size: 14px;
 	background: #FFFEF8;
 }
-main {
-	max-width: 1140px;
-	margin: auto;
-	padding-left: 95px;
-	padding-right: 95px;
-	box-sizing: border-box;
-}
-.main-login{
-	margin-bottom: 225px;
-	margin-top: 134px;
-}
 
-header {
+																		/** partie header **/
+
+.header {
 	max-width: 1140px;
 	display: flex;
 	justify-content: space-between;
 	margin: auto;
 	margin-top: 50px;
 }
-section {
-	margin: 139px 0
+
+.mode-edition {	
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 21px;
+	background-color: black;
+	color: white;
+	height: 59px;	
 }
 
 h1{
@@ -94,21 +107,15 @@ h1 > span {
 	font-family: 'Work Sans';
 	font-size:10px;
 	letter-spacing: 0.1em;
-;
 }
 
-h2{
-	font-family: 'Syne';
-	font-weight: 700;
-	font-size: 30px;
-	color: #1D6154
-}
 nav ul {
 	display: flex;
 	align-items: center;
 	list-style-type: none;
 
 }
+
 nav li {
 	padding: 0 10px;
 	font-size: 1.2em;
@@ -117,23 +124,40 @@ nav li {
 li:hover {
 	color: #B1663C;
 }
+
+																		/** partie main **/
+
+main {
+	max-width: 1140px;
+	margin: auto;
+	padding-left: 95px;
+	padding-right: 95px;	
+}
+
+section {
+	margin: 139px 0
+}
+
 #introduction {
 	display: flex;
 	align-items: center;
 	gap: 71px;
 }
-#introduction figure {
+
+/*#introduction figure {
 	flex: 1
-}
+}*/
+
 #introduction img {
 	display: block;
 	margin: auto;
 	width: 475px;
 }
 
-#introduction article {
+/*#introduction article {
 	flex: 1
-}
+}*/
+
 #introduction h2 {
 	margin-bottom: 51px;
 }
@@ -141,12 +165,22 @@ li:hover {
 #introduction p {
 	margin-bottom: 0.5em;
 }
-#portfolio h2 {
-	text-align: center;
-	margin-bottom: 1em;
+
+.modify {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-bottom: 3em;
+	gap: 35px;
 }
 
-/*Mise en forme des boutton*/
+.fa-pen-to-square {
+	margin-right: 10px;
+}
+
+
+/** partie filtre **/
+
 .filtre {
 	display: flex;
 	justify-content: center;	
@@ -157,15 +191,14 @@ li:hover {
 	display: none;
 }
 
-.filtre button, .addPicture {
+.filtre button {
 	height: 37px;
 	font-size: 1.2em;
 	border: 1px solid #1D6154;	
 	font-family: 'Syne';
 	font-weight: 700;
 	color: #1D6154;
-	padding: 0 27px;
-	
+	padding: 0 27px;	
 	text-align: center;
 	border-radius: 60px ;	
 	background-color: white
@@ -175,6 +208,59 @@ li:hover {
 	background-color: #1D6154;
 	color: white;
 }
+
+/** partie formulaire + btn pour passer de la modal1 à la modal2 **/
+
+input[type="submit"], .addPicture {
+	font-family: 'Syne';
+	font-weight: 700;
+	border-radius: 60px ;
+	padding: 9.5px 58.5px;
+	margin: auto;
+	margin-top: 2em;
+	color: white;
+	background-color: #1D6154;
+}
+
+#contact, #log-in {
+	width: 50%;
+	margin: auto;
+}
+#contact > *, #log-in > * {
+	text-align: center;
+
+}
+#contact h2, #log-in h2{
+	margin-bottom: 20px;
+}
+#contact form, #log-in form, #modal2 form {
+	text-align: left;
+	margin-top:30px;
+	display: flex;
+	flex-direction: column;
+}
+
+#contact input, #log-in input, #portfolio input, #contact textarea, select{	
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+	font-size: 14px;
+}
+
+#contact input[type="submit"], #log-in input[type="submit"], #portfolio input[type="submit"], #portfolio .btn-upload {
+	box-shadow: none;
+}
+
+
+#contact label, #log-in label, #modal2 label {
+	margin: 2em 0 1em 0;
+}
+
+label + input, select {
+	height: 51px;
+	padding-left: 10px;
+}
+
+/** affichage projets **/
 
 .gallery {
 	width: 100%;
@@ -189,48 +275,8 @@ li:hover {
 	width: 100%;
 
 }
-#contact, #log-in {
-	width: 50%;
-margin: auto;
-}
-#contact > *, #log-in > * {
-	text-align: center;
 
-}
-#contact h2, #log-in h2{
-	margin-bottom: 20px;
-}
-#contact form, #log-in form {
-	text-align: left;
-	margin-top:30px;
-	display: flex;
-	flex-direction: column;
-}
-
-#contact input, #log-in input {
-	height: 50px;
-	font-size: 1.2em;
-	border: none;
-	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
-}
-#contact label, #log-in label {
-	margin: 2em 0 1em 0;
-}
-#contact textarea {
-	border: none;
-	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
-}
-
-input[type="submit"]{
-	font-family: 'Syne';
-	font-weight: 700;
-	color: white;
-	background-color: #1D6154;
-	margin : 2em auto ;
-	width: 180px;
-	text-align: center;
-	border-radius: 60px ;
-}
+/** pied de page **/
 
 footer {
 	background-color: white;
@@ -240,52 +286,8 @@ footer {
 	justify-content: flex-end;
 }
 
-
 footer nav ul {
 	margin-right: 107px;
 }
 
-.mot-passe-oublier {
-	display: flex;
-	justify-content: center;
-	color: inherit;
-}
 
-.erreurConnexion p {
-	background-color: red;
-	padding: 20px 0 20px 0;
-	margin-bottom: 20px;
-}
-
-
-
-
-
-.mode-edition {	
-	background-color: black;
-	color: white;
-	height: 59px;
-
-}
-
-.mode-edition p {
-	text-align: center;
-	padding: 22.5px 0;
-}
-
-.mode-edition i {
-	margin-right: 21px;
-}
-
-.modifier {
-	display: flex;
-	justify-content: center;
-}
-
-
-
-.modifier p {
-	position: relative;
-	left: 30px;
-	top: 10px;
-}

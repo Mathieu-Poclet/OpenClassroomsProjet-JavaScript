@@ -28,6 +28,7 @@
     padding: 36px 105px 45px 105px;
     background-color: white;
     border-radius: 10px;
+    text-align: center
 }
 
 .modal-projects {
@@ -43,23 +44,34 @@
     display: block;
 }
 
-.exit-container {
-    position: relative;
-    top: -10px;
-    left: 471px;
-    width: 24px;
-    height: 24px;    
-    padding: 6px;    
-    border: none;
-    background-color: white;    
+#close-modal1 {
+    display: flex;
+    justify-content: end;
+    margin-right: -51px;
 }
 
-.exit {
-    width: 100%;
-    height: 100%;
+#close-modal2 {
     display: flex;
-    align-items: center;
+    justify-content: space-between;
+    margin-left: -51px;
+    margin-right: -51px;
+}
+
+.js-modal-close, .js-allModal-close {
+    background-color: white;
+    border: none;
+    width: 24px;
+    height: 24px;    
+}
+
+.close-modal {
+    font-size: 12.01px;    
+    display: flex;
     justify-content: center;
+}
+
+.return-modal {
+    font-size: 21px;
 }
 
 .deleteElement {
@@ -75,12 +87,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border: none;
-  
+    border: none;  
 }
 
-#modal1-title, #modal2-title {
-    text-align: center;
+.modal-title {   
     font-family: 'Work Sans', sans-serif;
     font-size: 26px;
     color: black;
@@ -95,13 +105,84 @@
     justify-content: center;
     align-items: center;
     width: 237px;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+select {
+    background-color: white;
 }
 
 .line {
     border-top: solid 1px #B3B3B3;
     margin-top: 67.29px;
+    width: 100%;
 }
 
 *:focus {
     box-shadow: 0 0 10px blue;
 }
+
+.addPics div {
+    position: relative;
+    overflow: hidden;
+}
+
+  .addPics div input[type=file] {
+    left: 0;
+    top: 0;
+    opacity: 0;
+    position: absolute;
+    font-size: 90px;
+  }
+
+  .btn-upload {
+    background-color: #CBD6DC;
+    text-align: center;
+    color: #306685;
+    padding: 10px 25px;
+    border-radius: 50px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  
+  .addPics p {
+    color: #444444;
+    margin-bottom: 18px;
+  }
+
+  .addPics {
+    background-color: #E8F1F6;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 10px;
+    height: 169px;
+    border-radius: 3px;
+  }
+
+  .title-form, .selectionCategory {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  /*.title-form input, .selectionCategory select {
+    flex: 1;
+  }*/
+
+  .addPics i {
+    font-size: 60px;
+    color: #B9C5CC;
+    margin-top: 18px;
+  }
+
+  .toto {
+    max-height: 100%;
+  }
+  
+  .masquerDiv {
+    display: none;
+  }
