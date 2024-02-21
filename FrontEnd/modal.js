@@ -1,27 +1,10 @@
-// Fonction asynchrone pour récupérer la liste des projets depuis l'API
 import { generateProjectElements } from "./projets.js"
-
-async function getProjects() {
-
-    try {
-
-        const response = await fetch("http://localhost:5678/api/works/")
-        const projects = await response.json()
-        return projects
-
-   } catch (error) {
-
-       console.error("Erreur lors de la récupération des projets :", error)
-       return []
-
-   }
-
-}
+import { getProjects } from "./projets.js"
 
 
 // Fonction pour générer les éléments HTML des projets dans la modal
 
-function generateSmallProjectElements(projects) {
+function generateProjectModal(projects) {
     
     const projectsModal = document.querySelector(".modal-projects")
     
@@ -87,8 +70,8 @@ function openModal(event) {
     document.querySelector(".js-allModal-close").addEventListener("click", closeAllModal)
     
     // Supprime les projets actuels dans la modal
-
-    deleteProject()   
+    
+    deleteProject()    
     
 }
 
@@ -119,20 +102,17 @@ function closeModal(event) {
        
         modal = null
 
-        console.log("fermeture modal 1")
-        console.log(modal)
-
     } else {     
 
         modal = document.querySelector("#modal1")
-                
-        console.log("fermeture modal 2")
-        console.log(modal.id)
         
     }    
-   
+    
     refresh()
     modal1()
+    resetForm()
+    
+
 }
 
 
@@ -144,9 +124,6 @@ function closeAllModal(event) {
 
     if (modal === null) return    
 
-    
-    console.log(modal.id)
-
     document.querySelectorAll(".modal").forEach(allModal => {
 
         allModal.style.display = "none"
@@ -156,7 +133,7 @@ function closeAllModal(event) {
     
     refresh()
     modal1()
-    console.log(modal)
+    resetForm()
     
 }
 
@@ -202,6 +179,216 @@ function focusInModal(event) {
 }
 
 
+// Fonction pour afficher les projets dans la modal
+
+async function modal1() {    
+
+    let projects = await getProjects()
+    generateProjectModal(projects)
+
+}
+
+
+// Fonction pour actualiser l'affichage des projets
+
+async function refresh() {    
+
+    let projects = await getProjects()
+    generateProjectElements(projects)
+
+}
+    
+
+// Fonction pour supprimer des projets dans la modal
+
+async function deleteProject() {
+
+    let btnDelete = modal.querySelectorAll(".deleteElement")
+
+    for (let i = 0; i < btnDelete.length; i++) {
+
+            btnDelete[i].addEventListener("click", async (event) => {
+
+                event.preventDefault()
+
+                let id = btnDelete[i].id         
+                let token = localStorage.getItem("token")
+
+                const confirmer = confirm("voulez vous suprimer cette élément ?")
+
+                if(confirmer){
+                    
+                    await fetch (`http://localhost:5678/api/works/${id}`,{
+
+                        method: "DELETE",                    
+                        headers: { 
+                            "Content-Type": "application/json",
+                            "Authorization": `Bearer ${token}`
+
+                        }                    
+                    })
+
+                    modal1()    // Actualise l'affichage des projets dans la modal
+
+                }                
+        })
+    }    
+}
+
+
+let addImg = document.getElementById("addImg")
+
+// Vérifie si une image a bien été selectionnée
+
+function imgOk() {
+
+    if(addImg.files[0] === undefined ) {
+
+        throw new Error("Le champ image est vide")
+
+    } 
+}
+
+
+let title = document.getElementById("formTitle")
+
+// Vérifie si le champ titre a bien été rempli
+
+function titleOk (title) {
+    
+    if (title.length < 1) {
+
+        throw new Error("Le champ titre est vide")        
+
+    } 
+}
+
+
+let category = document.getElementById("category")
+
+// Vérifie si une categorie a bien été selectionnée
+
+function categoryOk (category) {
+
+    if (category.value === "0") {
+
+        throw new Error("Category non selectionné")
+
+    } 
+}
+
+
+function addProjects () {
+
+    let addPics = document.querySelector(".addPics")
+
+    // affiche l'image selectionnée 
+
+    addPics.addEventListener("change", () => {
+
+        const img = document.createElement("img")
+        let addPicsDiv = document.querySelector(".addPics div")
+
+        addPicsDiv.classList.add("hideDiv") // efface le contenu de la div en ajoutant la class "hideDiv"
+        img.classList.add("maxHeightImg")
+
+        img.src = URL.createObjectURL(addImg.files[0])
+        
+        addPics.appendChild(img)
+    })
+
+    let formModal = document.querySelector(".js-formModal")
+    let btnValidate = document.getElementById("validate")
+
+    btnValidate.disabled = true    // rendre le bouton valider non cliquable 
+
+    // teste que le formulaire soit bien rempli pour activer le bouton valider
+
+    formModal.addEventListener("change", () => {
+
+        if ( addImg.files[0] !== undefined && title.value !=="" && category.value !== "0") {
+
+            btnValidate.style = "background-color: #1D6154"  // Change la couleur du bouton valider
+            btnValidate.disabled = false                     // rend le btn valider actif
+            
+        } else {
+
+            btnValidate.disabled = true
+            btnValidate.style = "background-color: #A7A7A7"
+
+        }
+
+    })
+
+    
+    // Ajoute un gestionnaire d'événement sur le submit
+
+    let form = document.querySelector(".js-formModal")
+    
+    form.addEventListener("submit", (event) => {
+        
+        event.preventDefault()        
+        
+        let valueTitle = title.value
+        let valueCategory = category.value
+        
+        try {
+
+            imgOk()
+            titleOk(title)
+            categoryOk(category)    
+
+            const formData = new FormData();
+            formData.append("image", addImg.files[0])
+            formData.append("title", valueTitle)
+            formData.append("category", valueCategory)                   
+        
+            let token = localStorage.getItem("token")
+            fetch("http://localhost:5678/api/works", {
+
+                method: "POST",
+
+                headers: {Authorization: `Bearer ${token}`},
+
+                body: formData
+                
+            })
+            
+            closeModal(event)  // ferme la modal 2 une fois l'ajout du nouveau projet
+    
+        } catch(erreur) {
+
+            console.log(erreur)
+
+        }                     
+    })
+}
+
+
+// efface le contenu du formulaire
+
+function resetForm() {
+
+    document.formEnvoie.reset()
+        
+        let addPicsDiv = document.querySelector(".addPics div")
+        let img = document.querySelector(".addPics img")
+        const btnValidate = document.getElementById("validate")
+
+        
+        if(img !== null) {
+
+            addPicsDiv.classList.remove("hideDiv")  // retirer la class "hideDiv"
+            img.remove() // retire l'élément du DOM
+
+        }
+
+        btnValidate.style = "background-color: #A7A7A7"
+        btnValidate.disabled = true
+        
+}
+
+
 // Sélectionne tous les éléments avec la classe "js-modal" et ajoute des gestionnaires d'événements
 
 document.querySelectorAll(".js-modal").forEach(a => {
@@ -210,8 +397,7 @@ document.querySelectorAll(".js-modal").forEach(a => {
 
         // Affiche les projets au chargement de la page
 
-        modal1()             
-        
+        modal1()                  
         
 })
 
@@ -227,176 +413,7 @@ window.addEventListener("keydown", (event) => {
 })
 
 
-// Fonction pour afficher les projets dans la modal
-
-async function modal1() {    
-
-    let projects = await getProjects();
-    generateSmallProjectElements(projects);
-}
-
-
-// Fonction pour afficher le contenu dans la modal
-
-
-async function refresh() {    
-
-    let projects = await getProjects();
-    generateProjectElements(projects)
-
-}
-    
-
-
-
-
-async function deleteProject() {
-    let btnSuprimer = modal.querySelectorAll(".deleteElement")
-
-    for (let i = 0; i < btnSuprimer.length; i++) {
-
-            btnSuprimer[i].addEventListener("click", async (event) => {
-                event.preventDefault()     
-                let id = btnSuprimer[i].id         
-                console.log(id)
-                let token = localStorage.getItem("token")
-                const confirmer = confirm("voulez vous suprimer cette élément ?")
-                if(confirmer){
-                    
-                    await fetch (`http://localhost:5678/api/works/${id}`,{
-                    method: "DELETE",
-                    
-                    headers: { 
-                        "Content-Type": "application/json",
-                        "Authorization": `Bearer ${token}`
-                    }                    
-                    })
-                    modal1()
-                }                
-        })
-    }    
-}
-
-
-
-
-
-const addImg = document.getElementById("addImg")
-const imageFile = addImg.files[0]
-
-
-
-function imgOk() {
-
-    if(imageFile === "undefined" ) {
-
-        throw new Error("Le champ image est vide")
-
-    } 
-}
-
-let title = document.getElementById("formTitle")
-
-
-function titleOk (title) {
-    
-    if (title.length < 1) {
-
-        throw new Error("Le champ titre est vide")        
-
-    } 
-}
-
-let category = document.getElementById("category")
-
-function categoryOk (category) {
-    if (category.value === "0") {
-
-        throw new Error("Category non selectionné")
-
-    } 
-}
-
-
-function addProjects () {
-
-let addPics = document.querySelector(".addPics")
-addPics.addEventListener("change", () => {
-
-    const img = document.createElement("img")
-    let masquerDiv = document.querySelector(".addPics div")
-    masquerDiv.classList.add("masquerDiv")
-    img.classList.add("toto")
-    img.src = URL.createObjectURL(addImg.files[0])
-    
-    addPics.appendChild(img)
-})
-
-let form = document.querySelector(".formModal")
-
-form.addEventListener("submit", (event) => {
-    
-    event.preventDefault()
-    let valeurTitle = title.value
-    let valueCategory = category.value
-    
-    try {
-
-        imgOk()
-        titleOk(valeurTitle)
-        categoryOk(category)    
-
-        const formData = new FormData();
-        formData.append("image", addImg.files[0]);
-        formData.append("title", valeurTitle);
-        formData.append("category", valueCategory);    
-               
-    
-        let token = localStorage.getItem("token")
-        fetch("http://localhost:5678/api/works", {
-
-            method: "POST",
-
-            headers: {Authorization: `Bearer ${token}`},
-
-            body: formData
-            
-        })
-
-        document.formEnvoie.reset()
-        
-        let masquerDiv = document.querySelector(".addPics div")
-        let img = document.querySelector(".addPics img")
-        masquerDiv.classList.remove("masquerDiv")
-        img.remove()
-        
-
-    
-    } catch(erreur) {
-
-        console.log(erreur)
-
-    }      
-    
-})
-
-}
-
-
-/*document.getElementById('name').addEventListener('input', function(event) {
-    document.getElementById('submit').disabled = !this.value;
-}, false);*/
-
-/*let btnValider = document.getElementById("valider")
-if (title.length < 1 || category.value === "0" || imageFile === "undefined") {
-
-    btnValider.disabled = true
-
-} else {
-
-    btnValider.disabled = false
-}*/
-
-
+resetForm()
 addProjects()
-     
+
+

@@ -4,6 +4,8 @@
     box-sizing: border-box;
 }
 
+/** affichage modal **/
+
 .modal {
     display: flex;
     justify-content: center;
@@ -31,6 +33,56 @@
     text-align: center
 }
 
+/** boutons pour fermer les modals **/
+
+#close-modal1 {
+  display: flex;
+  justify-content: end;
+  margin-right: -51px;
+}
+
+#close-modal2 {
+  display: flex;
+  justify-content: space-between;
+  margin-left: -51px;
+  margin-right: -51px;
+}
+
+.js-modal-close, .js-allModal-close {
+  background-color: white;
+  border: none;
+  width: 24px;
+  height: 24px;    
+}
+
+.close-modal {
+  font-size: 12.01px;    
+  display: flex;
+  justify-content: center;
+}
+
+.return-modal {
+  font-size: 21px;
+}
+
+/** titre de la modal **/
+
+.modal-title {   
+  font-family: 'Work Sans', sans-serif;
+  font-size: 26px;
+  color: black;
+  font-weight: 400;
+}
+
+.line {
+  border-top: solid 1px #B3B3B3;
+  margin-top: 67.29px;
+  width: 100%;
+}
+
+                                                              /******* modal 1 *******/
+/** affichage projets **/
+
 .modal-projects {
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
@@ -41,148 +93,116 @@
 
 .modal-projects img {
 	width: 100%;
-    display: block;
+  display: block;
 }
 
-#close-modal1 {
-    display: flex;
-    justify-content: end;
-    margin-right: -51px;
-}
-
-#close-modal2 {
-    display: flex;
-    justify-content: space-between;
-    margin-left: -51px;
-    margin-right: -51px;
-}
-
-.js-modal-close, .js-allModal-close {
-    background-color: white;
-    border: none;
-    width: 24px;
-    height: 24px;    
-}
-
-.close-modal {
-    font-size: 12.01px;    
-    display: flex;
-    justify-content: center;
-}
-
-.return-modal {
-    font-size: 21px;
-}
+/** bouton pour supprimer projets **/
 
 .deleteElement {
-    position: relative;
-    border-radius: 2px;
-    color: white;
-    top: 23px;
-    left: 51.41px;
-    background-color: black;
-    width: 17px;
-    height: 17px;
-    font-size: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: none;  
+  position: relative;
+  border-radius: 2px;
+  color: white;
+  top: 23px;
+  left: 51.41px;
+  background-color: black;
+  width: 17px;
+  height: 17px;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;  
 }
 
-.modal-title {   
-    font-family: 'Work Sans', sans-serif;
-    font-size: 26px;
-    color: black;
-    font-weight: 400;
+/** design bouton "ajouter une photo" **/
+
+.btn-addPicture {    
+  margin: 37px auto 0 auto;
+  display: flex;
+  justify-content: center;    
+  width: 237px;
+  padding-left: 0;
+  padding-right: 0;
 }
 
-.addPicture {
-    background-color: #1D6154;
-    color: white;
-    margin: 37px auto 0 auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 237px;
-    padding-left: 0;
-    padding-right: 0;
+                                                                /******* modal 2 *******/
+
+/** formulaire partie ajout photo **/
+
+.addPics {
+  background-color: #E8F1F6;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;  
+  height: 169px;
+  border-radius: 3px;
+  
 }
 
-select {
+.addPics div {
+  position: relative;
+  overflow: hidden;
+}
+
+.addPics i {
+  display: flex;
+  justify-content: center;
+  font-size: 60px;
+  color: #B9C5CC;  
+  margin-bottom: 10px;
+}
+
+.btn-upload {
+  background-color: #CBD6DC;
+  text-align: center;
+  color: #306685;
+  padding: 10px 25px;
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+#addImg {
+  left: 0;
+  top: 0;
+  opacity: 0;
+  position: absolute;
+  font-size: 90px;
+}
+
+.addPics p {
+  display: flex;
+  justify-content: center;
+  color: #444444; 
+  margin-top: 10px; 
+}
+
+.maxHeightImg {
+  max-height: 100%;
+}
+  
+.hideDiv {
+  display: none;
+}
+
+/** formulaire **/
+
+.title-form, .selectionCategory {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+#category {
     background-color: white;
 }
 
-.line {
-    border-top: solid 1px #B3B3B3;
-    margin-top: 67.29px;
-    width: 100%;
+#validate {
+  background-color: #A7A7A7;
 }
 
 *:focus {
     box-shadow: 0 0 10px blue;
 }
 
-.addPics div {
-    position: relative;
-    overflow: hidden;
-}
-
-  .addPics div input[type=file] {
-    left: 0;
-    top: 0;
-    opacity: 0;
-    position: absolute;
-    font-size: 90px;
-  }
-
-  .btn-upload {
-    background-color: #CBD6DC;
-    text-align: center;
-    color: #306685;
-    padding: 10px 25px;
-    border-radius: 50px;
-    font-size: 14px;
-    font-weight: 500;
-  }
-  
-  .addPics p {
-    color: #444444;
-    margin-bottom: 18px;
-  }
-
-  .addPics {
-    background-color: #E8F1F6;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    gap: 10px;
-    height: 169px;
-    border-radius: 3px;
-  }
-
-  .title-form, .selectionCategory {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-  }
-
-  /*.title-form input, .selectionCategory select {
-    flex: 1;
-  }*/
-
-  .addPics i {
-    font-size: 60px;
-    color: #B9C5CC;
-    margin-top: 18px;
-  }
-
-  .toto {
-    max-height: 100%;
-  }
-  
-  .masquerDiv {
-    display: none;
-  }
