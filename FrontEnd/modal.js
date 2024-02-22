@@ -112,7 +112,6 @@ function closeModal(event) {
     modal1()
     resetForm()
     
-
 }
 
 
@@ -207,30 +206,32 @@ async function deleteProject() {
 
     for (let i = 0; i < btnDelete.length; i++) {
 
-            btnDelete[i].addEventListener("click", async (event) => {
+        btnDelete[i].addEventListener("click", async (event) => {
 
-                event.preventDefault()
+            event.preventDefault()
 
-                let id = btnDelete[i].id         
-                let token = localStorage.getItem("token")
+            let id = btnDelete[i].id         
+            let token = localStorage.getItem("token")
 
-                const confirmer = confirm("voulez vous suprimer cette élément ?")
+            const confirmer = confirm("voulez vous suprimer cette élément ?")
 
-                if(confirmer){
+            if(confirmer){
                     
-                    await fetch (`http://localhost:5678/api/works/${id}`,{
+                await fetch (`http://localhost:5678/api/works/${id}`,{
 
-                        method: "DELETE",                    
-                        headers: { 
-                            "Content-Type": "application/json",
-                            "Authorization": `Bearer ${token}`
+                    method: "DELETE",                    
+                    headers: { 
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`
 
-                        }                    
-                    })
+                    }                    
+                })
 
-                    modal1()    // Actualise l'affichage des projets dans la modal
+                modal1()    // Actualise l'affichage des projets dans la modal
+                let btnDelete = modal.querySelectorAll(".deleteElement")
+                console.log(btnDelete)
 
-                }                
+            }                
         })
     }    
 }
@@ -325,7 +326,7 @@ function addProjects () {
 
     let form = document.querySelector(".js-formModal")
     
-    form.addEventListener("submit", (event) => {
+    form.addEventListener("submit", async (event) => {
         
         event.preventDefault()        
         
@@ -344,7 +345,7 @@ function addProjects () {
             formData.append("category", valueCategory)                   
         
             let token = localStorage.getItem("token")
-            fetch("http://localhost:5678/api/works", {
+            await fetch("http://localhost:5678/api/works", {
 
                 method: "POST",
 
@@ -360,7 +361,11 @@ function addProjects () {
 
             console.log(erreur)
 
-        }                     
+        }         
+        
+        let btnDelete = document.querySelectorAll(".deleteElement")
+        console.log(btnDelete)
+        
     })
 }
 
@@ -404,11 +409,16 @@ document.querySelectorAll(".js-modal").forEach(a => {
 // Ajoute des gestionnaires d'événements pour la touche Escape et la navigation au clavier
 
 window.addEventListener("keydown", (event) => {
+
     if (event.key === "Escape" || event.key === "Esc") {
+
         closeModal(event)
+
     }
     if (event.key === "Tab" && modal !== null) {
+
         focusInModal(event)
+        
     }
 })
 
