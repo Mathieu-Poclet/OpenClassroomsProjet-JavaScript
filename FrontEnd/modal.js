@@ -21,6 +21,37 @@ function generateProjectModal(projects) {
         recycleElement.classList.add("fa-solid", "fa-trash-can")
         recycleElement.id = project.id 
 
+        // Ajoute un listener à chaque boutton créé 
+
+        recycleElement.addEventListener("click", async (event) => {
+
+            event.preventDefault()
+
+            let id = project.id         
+            let token = localStorage.getItem("token")
+
+            const confirmer = confirm("voulez vous suprimer cette élément ?")
+
+            if(confirmer){
+
+                // supprime le projet sélectionné 
+                    
+                await fetch(`http://localhost:5678/api/works/${id}`,{
+                    method: "DELETE",
+                    headers: { 
+
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`
+
+                    }
+                })
+                
+                    modal1()    // Actualise l'affichage des projets dans la modal
+                    refresh()              
+                    
+            }                
+        })
+
         imageElement.src = project.imageUrl        
        
         projectElement.appendChild(recycleElement)
@@ -68,10 +99,6 @@ function openModal(event) {
     modal.querySelector(".js-modal-close").addEventListener("click", closeModal)    
     modal.querySelector(".js-modal-stop").addEventListener("click", stopPropagation)
     document.querySelector(".js-allModal-close").addEventListener("click", closeAllModal)
-    
-    // Supprime les projets actuels dans la modal
-    
-    deleteProject()    
     
 }
 
@@ -128,10 +155,8 @@ function closeAllModal(event) {
         allModal.style.display = "none"
         modal = null
 
-    }) 
+    })   
     
-    refresh()
-    modal1()
     resetForm()
     
 }
@@ -195,45 +220,6 @@ async function refresh() {
     let projects = await getProjects()
     generateProjectElements(projects)
 
-}
-    
-
-// Fonction pour supprimer des projets dans la modal
-
-async function deleteProject() {
-
-    let btnDelete = modal.querySelectorAll(".deleteElement")
-
-    for (let i = 0; i < btnDelete.length; i++) {
-
-        btnDelete[i].addEventListener("click", async (event) => {
-
-            event.preventDefault()
-
-            let id = btnDelete[i].id         
-            let token = localStorage.getItem("token")
-
-            const confirmer = confirm("voulez vous suprimer cette élément ?")
-
-            if(confirmer){
-                    
-                await fetch (`http://localhost:5678/api/works/${id}`,{
-
-                    method: "DELETE",                    
-                    headers: { 
-                        "Content-Type": "application/json",
-                        "Authorization": `Bearer ${token}`
-
-                    }                    
-                })
-
-                modal1()    // Actualise l'affichage des projets dans la modal
-                let btnDelete = modal.querySelectorAll(".deleteElement")
-                console.log(btnDelete)
-
-            }                
-        })
-    }    
 }
 
 
@@ -364,7 +350,7 @@ function addProjects () {
         }         
         
         let btnDelete = document.querySelectorAll(".deleteElement")
-        console.log(btnDelete)
+        
         
     })
 }
@@ -405,6 +391,7 @@ document.querySelectorAll(".js-modal").forEach(a => {
         modal1()                  
         
 })
+
 
 // Ajoute des gestionnaires d'événements pour la touche Escape et la navigation au clavier
 
